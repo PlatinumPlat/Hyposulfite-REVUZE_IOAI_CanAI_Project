@@ -24,16 +24,14 @@ print("Hello USER, visit our website ---- for details about this program. Note t
 #add systems for checking url, etc.
 while bool != False:
     a = input("Insert full url: ")
-    element = input("Insert element name: ")
-    HTMLclass = input("Insert element's HTML class: ")
     xPATH = input("Insert review link's path: ")
-    b = [a, element, HTMLclass, xPATH]
+    b = [a, xPATH]
 
-    if a!= "Quit!" :
-        url.append(b)
-    else:
-        bool = False
-        continue;
+    url.append(b)
+
+    q = input("Finished input? (Answer y/n): ")
+    if (q== 'y'):
+        bool=False
 
 c = 0
 for i in range(0, len(url)):
@@ -43,10 +41,10 @@ for i in range(0, len(url)):
 
     # Finding the address of the location
     response = BeautifulSoup(driver.page_source, 'html.parser')
-    address = response.find(url[i][1], class_=  url[i][2]).text
+    address = response.find('div', class_= 'rogA2c').text
     print(address)
 
-    driver.find_element('xpath',url[i][3]).click()
+    driver.find_element('xpath',url[i][1]).click()
     time.sleep(3)
 
     SCROLL_PAUSE_TIME = 5
@@ -57,11 +55,11 @@ for i in range(0, len(url)):
     while True:
         number = number + 1
 
-        ele = driver.find_element('xpath', url[i][3])
+        ele = driver.find_element('xpath', url[i][1])
         driver.execute_script('arguments[0].scrollBy(0, 5000);', ele)
 
         time.sleep(SCROLL_PAUSE_TIME)
-        ele = driver.find_element('xpath', url[i][3])
+        ele = driver.find_element('xpath', url[i][1])
 
         new_height = driver.execute_script("return arguments[0].scrollHeight", ele)
 
@@ -70,7 +68,7 @@ for i in range(0, len(url)):
         if new_height == last_height:
             break
         last_height = new_height
-    next_item = driver.find_elements('xpath', url[i][3])
+    next_item = driver.find_elements('xpath', url[i][1])
     time.sleep(3)
 
     for i in next_item:
@@ -82,7 +80,8 @@ for i in range(0, len(url)):
                     time.sleep(1)
                     m.click()
                 except Exception as e:
-                    print(f"Skipping this 'More' button due to: {e}")
+                    print("Encountered popup/modal which is blocking the more button. Program will wait until button is available to be clicked.")
+                    #print(f"Skipping this 'More' button due to: {e}")
         time.sleep(5)
 
     response = BeautifulSoup(driver.page_source, 'html.parser')
@@ -112,4 +111,4 @@ for i in range(0, len(url)):
         final_df1 = pd.concat([df1, final_df], axis=0)
 
 print(df)
-print()
+#address, etc. in other files.
