@@ -1,7 +1,7 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
-
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.devtools.v134.css import add_rule
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -77,7 +77,12 @@ for i in range(0, len(url)):
         button = i.find_elements(By.TAG_NAME, 'button')
         for m in button:
             if m.text == "More":
-                m.click()
+                try:
+                    driver.execute_script("arguments[0].scrollIntoView(true);", m)
+                    time.sleep(1)
+                    m.click()
+                except Exception as e:
+                    print(f"Skipping this 'More' button due to: {e}")
         time.sleep(5)
 
     response = BeautifulSoup(driver.page_source, 'html.parser')
