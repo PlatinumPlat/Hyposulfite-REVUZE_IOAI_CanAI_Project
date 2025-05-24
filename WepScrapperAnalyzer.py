@@ -1,3 +1,5 @@
+import sys
+
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
@@ -29,7 +31,7 @@ while bool != False:
 
     url.append(b)
 
-    q = input("Finished input? (Answer y/n): ")
+    q = input("Stop input? (Answer y/n): ")
     if (q== 'y'):
         bool=False
 
@@ -41,7 +43,13 @@ for i in range(0, len(url)):
 
     # Finding the address of the location
     response = BeautifulSoup(driver.page_source, 'html.parser')
-    address = response.find('div', class_= 'rogA2c').text
+    address_element = driver.find_element(By.CLASS_NAME, 'rogA2c')
+    address = address_element.text
+    if address_element:
+        address = address_element.text
+    else:
+        print("CAPTCHA appeared, which is blocking the page.")
+        address = "Address Not Found"
     print(address)
 
     driver.find_element('xpath',url[i][1]).click()
@@ -112,3 +120,4 @@ for i in range(0, len(url)):
 
 print(df)
 #address, etc. in other files.
+#instead, use google api for ethical factor
