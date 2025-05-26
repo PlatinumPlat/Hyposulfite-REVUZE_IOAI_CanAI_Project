@@ -39,7 +39,7 @@ c = 0
 for i in range(0, len(url)):
     c = c + 1
     driver.get(url[i][0])
-    time.sleep(5)
+    time.sleep(30)
 
     # Finding the address of the location
     response = BeautifulSoup(driver.page_source, 'html.parser')
@@ -53,9 +53,9 @@ for i in range(0, len(url)):
     print(address)
 
     driver.find_element('xpath',url[i][1]).click()
-    time.sleep(3)
+    time.sleep(20)
 
-    SCROLL_PAUSE_TIME = 5
+    SCROLL_PAUSE_TIME = 20
 
     last_height = driver.execute_script("return document.body.scrollHeight")
 
@@ -77,7 +77,7 @@ for i in range(0, len(url)):
             break
         last_height = new_height
     next_item = driver.find_elements('xpath', url[i][1])
-    time.sleep(3)
+    time.sleep(20)
 
     for i in next_item:
         button = i.find_elements(By.TAG_NAME, 'button')
@@ -85,7 +85,7 @@ for i in range(0, len(url)):
             if m.text == "More":
                 try:
                     driver.execute_script("arguments[0].scrollIntoView(true);", m)
-                    time.sleep(1)
+                    time.sleep(5)
                     m.click()
                 except Exception as e:
                     print("Encountered popup/modal which is blocking the more button. Program will wait until button is available to be clicked.")
