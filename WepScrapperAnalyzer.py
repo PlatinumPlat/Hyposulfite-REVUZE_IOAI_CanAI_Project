@@ -42,12 +42,12 @@ for i in range(0, len(url)):
     else:
         print("CAPTCHA appeared, which is blocking the page.")
         address = "Address Not Found"
-    print("The address of the business is" + address + ".")
+    print("The address of the business is " + address + ".")
 
     driver.find_element('xpath','//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]').click()
     time.sleep(20)
 
-    SCROLL_PAUSE_TIME = 20
+    SCROLL_PAUSE_TIME = 5
 
     last_height = driver.execute_script("return document.body.scrollHeight")
 
@@ -69,7 +69,7 @@ for i in range(0, len(url)):
             break
         last_height = new_height
     next_item = driver.find_elements('xpath', '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]')
-    time.sleep(20)
+    time.sleep(5)
 
     for i in next_item:
         button = i.find_elements(By.TAG_NAME, 'button')
@@ -129,5 +129,3 @@ for i in range(0, len(url)):
         print("In other words, the CONTENT of the reviews was often positive.")
     else:
         print("In other words, the CONTENT of the reviews was often extremely positive.")
-
-#address, etc. in other files.
