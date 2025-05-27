@@ -42,7 +42,7 @@ for i in range(0, len(url)):
     else:
         print("CAPTCHA appeared, which is blocking the page.")
         address = "Address Not Found"
-    print("The address of the business is" + address + ".")
+    print("The address of the business is " + address + ".")
 
     driver.find_element('xpath','//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]').click()
     time.sleep(20)

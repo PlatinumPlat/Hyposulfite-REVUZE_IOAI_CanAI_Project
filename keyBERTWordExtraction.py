@@ -1,0 +1,16 @@
+from keybert import KeyBERT
+
+doc = """My son had his first tennis lesson today and it went very well. We got pretty lucky with the timing, as his group does not have many kids, so he is getting a lot of instructions and practice. Well organized. His coach was very encouraging and made them laugh.The courts are decent but the lessons are a complete waste of time and money.
+I used to take lessons here a few years ago and really enjoyed it but most recently in Spring 2024 I found the lessons to be completely useless. There’s not much coaching but rather just you rallying with other people. The coaches just stand there. In addition one of student was injured by another student during the lesson and the coaches did absolutely nothing about it. Instead they made rude comments towards the person that was hurt.
+Furthermore when it rains you are left in the dark about whether the class will be cancelled. They emailed me about cancelling the 3- 4 pm class at 2:30 pm however I was in the 4-5 pm class. This left people confused about what is happening.
+Overall the lessons are disorganized and just a waste of time. There are better places nearby! Good, but Very crowded. Well maintained!
+If I could rate it a 0 I would. Honestly such awful service. For background information, I have to bus to my tennis lessons which take around 40 mins. Whenever the classes are cancelled they always let us know around 10 mins before the class starts. So by the time I'm already there, they tell me it is cancelled. I've wasted so many bus fees and gone back and forth for absolutely nothing. Another thing is that they never answer their number or emails, meaning zero communication and 100 percent confusion. Honestly disrespectful and inconsiderate. I still didn't get one tennis class and was basically scammed of my money. The whole business is so unorganized.
+If you dont want a huge headache I recommend you stay away from this tennis club. Huge waste of money, time, and energy. Highly unprofessional.
+I started taking tennis lessons in RHLTC this fall. The courts are really good and the tennis instructor Zhee is amazing. He really knows how to teach beginners. My only regret I started the lessons so late in the season. Will be booking all summer next year.
+Great Tennis facility ! There are a lot of tennis programs for junior and adults and include single, doubles leagues and ladders.Great community! Great tennis courts that offers tennis lessons. The coaches here are great and can teach the basics of tennis very well. Great tennis club. Reasonable prices, easy booking, nice courts.
+Not responsive when a lesson has been cancelled due to weather, with short notice of make up lesson, no flexibility of choosing other time slot, and no response for inquires about it.A great place for tennis. The surrounding are beautiful and the court are in good shape.
+Meet good people and involve in healthy ways. Nice club , reasonable price for summer season. Very good my favourite"""
+
+kw_model = KeyBERT()
+keywords = kw_model.extract_keywords(doc, keyphrase_ngram_range=(1, 2), use_maxsum=True, nr_candidates=30, top_n=7)
+print(keywords)
