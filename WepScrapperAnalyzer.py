@@ -44,8 +44,12 @@ for i in range(0, len(url)):
         address = "Address Not Found"
     print("The address of the business is " + address + ".")
 
-    driver.find_element('xpath','//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]').click()
-    time.sleep(20)
+    review_button = driver.find_element(By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]/div[3]/div/div/button[2]/div[2]')
+    review_button.click()
+
+    time.sleep(5)
+    driver.find_element('xpath','//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[3]').click()
+    time.sleep(10)
 
     SCROLL_PAUSE_TIME = 5
 
@@ -55,11 +59,11 @@ for i in range(0, len(url)):
     while True:
         number = number + 1
 
-        ele = driver.find_element('xpath', '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]')
+        ele = driver.find_element('xpath', '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[3]')
         driver.execute_script('arguments[0].scrollBy(0, 5000);', ele)
 
         time.sleep(SCROLL_PAUSE_TIME)
-        ele = driver.find_element('xpath', '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]')
+        ele = driver.find_element('xpath', '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[3]')
 
         new_height = driver.execute_script("return arguments[0].scrollHeight", ele)
 
@@ -68,7 +72,7 @@ for i in range(0, len(url)):
         if new_height == last_height:
             break
         last_height = new_height
-    next_item = driver.find_elements('xpath', '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[2]')
+    next_item = driver.find_elements('xpath', '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[3]')
     time.sleep(5)
 
     for i in next_item:
@@ -94,7 +98,10 @@ for i in range(0, len(url)):
 
         for result in result_set:
             review_name = result.find(class_='d4r55').text
-            review_text = result.find('span', class_='wiI7pd').text
+            try:
+                review_text = result.find('span', class_='wiI7pd').text
+            except Exception as e:
+                continue
             rev_dict['Review Name'].append(review_name)
             rev_dict['Review Text'].append(review_text)
             analyzer = SentimentIntensityAnalyzer()
@@ -115,15 +122,21 @@ for i in range(0, len(url)):
         final_df1 = pd.concat([df1, final_df], axis=0)
 
     print(df)
-    avg = round(avg * 10)
+    if (avg<0):
+        avg = round((5+avg/2)*10)
+    elif avg>0:
+        avg = round((2*avg)*10)
+    else:
+        avg=5
+
     print("After running sentiment analysis on the reviews, this program discovered that the average sentiment score (from zero to ten) for the business was", avg, "out of 10.")
-    if avg<2:
+    if avg<-8:
         print("In other words, the CONTENT of the reviews was often strongly negative.")
-    elif avg <4:
+    elif avg <-4:
         print("In other words, the CONTENT of the reviews was often negative.")
-    elif avg<5:
+    elif avg<0:
         print("In other words, the CONTENT of the reviews was often somewhat negative.")
-    elif avg<6:
+    elif avg<4:
         print("In other words, the CONTENT of the reviews was often somewhat positive.")
     elif avg<8:
         print("In other words, the CONTENT of the reviews was often positive.")
