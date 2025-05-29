@@ -1,11 +1,32 @@
-import sys
-
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
 from selenium.webdriver.common.by import By
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from keybert import KeyBERT
 import pandas as pd
+
+
+def review_analysis(result_set):
+    rev_dict = {'Review Name': [],
+                'Review Text': []}
+    total = 0
+    count = 0
+
+    for result in result_set:
+        review_name = result.find(class_='d4r55').text
+        try:
+            review_text = result.find('span', class_='wiI7pd').text
+        except Exception as e:
+            continue
+        rev_dict['Review Name'].append(review_name)
+        rev_dict['Review Text'].append(review_text)
+        analyzer = SentimentIntensityAnalyzer()
+        vs = analyzer.polarity_scores(review_text)
+
+        total += list(vs.values())[3]
+        count += 1
+    return pd.DataFrame(rev_dict), total / count
 
 def address_Addition(address1, new_df):
     address_list = address1.split(',')
@@ -90,11 +111,15 @@ for i in range(0, len(url)):
     response = BeautifulSoup(driver.page_source, 'html.parser')
     next_2 = response.find_all('div', class_='jftiEf')
 
+<<<<<<< HEAD
+    df, avg = review_analysis(next_2)
+=======
     def get_review_summary(result_set):
         rev_dict = {'Review Name': [],
                     'Review Text': []}
         total = 0
         count = 0
+        reviewsDataSet = ""
 
         for result in result_set:
             review_name = result.find(class_='d4r55').text
@@ -104,14 +129,20 @@ for i in range(0, len(url)):
                 continue
             rev_dict['Review Name'].append(review_name)
             rev_dict['Review Text'].append(review_text)
+            reviewsDataSet = reviewsDataSet + review_text
             analyzer = SentimentIntensityAnalyzer()
             vs = analyzer.polarity_scores(review_text)
 
             total += list(vs.values())[3]
             count += 1
-        return pd.DataFrame(rev_dict), total/count
+        return pd.DataFrame(rev_dict), total/count, reviewsDataSet
 
-    df, avg = get_review_summary(next_2)
+
+    df, avg, reviewsData = get_review_summary(next_2)
+    
+    kw_model = KeyBERT()
+    keywords = kw_model.extract_keywords(reviewsData, keyphrase_ngram_range=(1, 2), use_maxsum=True, nr_candidates=30, top_n=8)
+>>>>>>> 358787485bcfa0669d577807f6a79078d1ac00fa
 
     if c == 1:
         df1 = df.copy()
@@ -122,12 +153,7 @@ for i in range(0, len(url)):
         final_df1 = pd.concat([df1, final_df], axis=0)
 
     print(df)
-    if (avg<0):
-        avg = round((5+avg/2)*10)
-    elif avg>0:
-        avg = round((2*avg)*10)
-    else:
-        avg=5
+    avg = round(5+(avg/2)*10)
 
     print("After running sentiment analysis on the reviews, this program discovered that the average sentiment score (from zero to ten) for the business was", avg, "out of 10.")
     if avg<-8:
@@ -142,3 +168,11 @@ for i in range(0, len(url)):
         print("In other words, the CONTENT of the reviews was often positive.")
     else:
         print("In other words, the CONTENT of the reviews was often extremely positive.")
+    KeyWORDS = "Furthermore, the key words used in the the reviews were: "
+    for element, index in keywords:
+        if index % 2 != 0:
+            if element == keywords[-2]:
+                KeyWORDS = KeyWORDS + "and " + element + "."
+            else:
+                KeyWORDS = KeyWORDS + element + ", "
+    print(KeyWORDS.replace("\n", ""))
