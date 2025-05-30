@@ -145,10 +145,10 @@ for i in range(0, len(url)):
     else:
         print("In other words, the CONTENT of the reviews was often extremely positive.")
     KeyWORDS = "Furthermore, the key words used in the the reviews were: "
-    for element, index in keywords:
-        if index % 2 != 0:
-            if element == keywords[-2]:
-                KeyWORDS = KeyWORDS + "and " + element + "."
-            else:
-                KeyWORDS = KeyWORDS + element + ", "
+    string_keywords = [value[0] for value in keywords]
+    for i, element in enumerate(string_keywords):
+        if i == len(string_keywords) - 1:
+            KeyWORDS = KeyWORDS + "and " + element + "."
+        else:
+            KeyWORDS = KeyWORDS + element + ", "
     print(KeyWORDS.replace("\n", ""))
