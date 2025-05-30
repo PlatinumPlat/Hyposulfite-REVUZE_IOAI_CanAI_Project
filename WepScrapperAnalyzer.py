@@ -38,7 +38,6 @@ url = []
 bool = True
 
 print("Hello USER, visit our website ---- for details about this program. Note that --saftey concerns here--- and copyright licesne here...")
-#add systems for checking url, etc.
 while bool != False:
     a = input("Insert full url: ")
     url.append(a)
@@ -111,9 +110,8 @@ for i in range(0, len(url)):
     response = BeautifulSoup(driver.page_source, 'html.parser')
     next_2 = response.find_all('div', class_='jftiEf')
 
-<<<<<<< HEAD
     df, avg = review_analysis(next_2)
-=======
+
     def get_review_summary(result_set):
         rev_dict = {'Review Name': [],
                     'Review Text': []}
@@ -142,7 +140,6 @@ for i in range(0, len(url)):
     
     kw_model = KeyBERT()
     keywords = kw_model.extract_keywords(reviewsData, keyphrase_ngram_range=(1, 2), use_maxsum=True, nr_candidates=30, top_n=8)
->>>>>>> 358787485bcfa0669d577807f6a79078d1ac00fa
 
     if c == 1:
         df1 = df.copy()
@@ -175,4 +172,10 @@ for i in range(0, len(url)):
                 KeyWORDS = KeyWORDS + "and " + element + "."
             else:
                 KeyWORDS = KeyWORDS + element + ", "
+    string_keywords = [value[0] for value in keywords]
+    for i, element in enumerate(string_keywords):
+        if i == len(string_keywords) - 1:
+            KeyWORDS = KeyWORDS + "and " + element + "."
+        else:
+            KeyWORDS = KeyWORDS + element + ", "
     print(KeyWORDS.replace("\n", ""))
