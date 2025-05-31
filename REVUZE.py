@@ -135,7 +135,7 @@ elif avg<8:
 else:
     print("In other words, the CONTENT of the reviews was often extremely positive.")
 
-#Keyword extraction
+# Keyword extraction
 KeyWORDS = "Furthermore, the key words used in the the reviews were: "
 for element, index in keywords:
     if index % 2 != 0:
