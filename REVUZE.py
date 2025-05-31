@@ -115,6 +115,7 @@ kw_model = KeyBERT()
 # Search for top 8 reoccurring 1-2 word phrases and maintain diversity and relevance
 keywords = kw_model.extract_keywords(reviewsData, keyphrase_ngram_range=(1, 2), use_maxsum=True, nr_candidates=30, top_n=8)
 
+print("Here is a shortened version of the reviews that Revuze has extracted in the form of a data table.")
 print(analysis)
 
 # Sentiment analysis results
