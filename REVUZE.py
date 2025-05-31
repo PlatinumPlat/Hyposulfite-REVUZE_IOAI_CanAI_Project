@@ -1,3 +1,4 @@
+# Import necessary libraries
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
@@ -32,7 +33,7 @@ def review_analysis(result_set):
         total += list(vs.values())[3]
         count += 1
 
-    # return data table, sentiment average, collection of all the review text (respectively)
+    # Return data table, sentiment average, collection of all the review text (respectively)
     return pd.DataFrame(rev_dict), total / count, reviewsData
 
 # Initial Messages
@@ -78,9 +79,6 @@ while True:
     ele = driver.find_element('xpath', '//*[@id="QA0Szd"]/div/div/div[1]/div[3]/div/div[1]/div/div/div[3]')
     new_height = driver.execute_script("return arguments[0].scrollHeight", ele)
 
-    if number == 5:
-        #THIS
-        break
     if new_height == last_height:
         # Prevent endless scrolling when program reaches the end of the page
         break
