@@ -9,10 +9,10 @@ REVUZE is a analytical tool designed to help businesses enhance their customer s
 
 # ▶ Try it out!
 👩‍🏫 To try out our project:
-1. Download our python script (REVUZE.py)
-2. Install *all* the packages mentioned in the requirements.txt!
+1. Download our python script (REVUZE.py) and text file (requirements.txt)
+2. Install *all* the packages mentioned in the requirements.txt by typing "pip install requirements" in the Python terminal!
 3. Simply run the code and follow the instructions provided!
-4. Note that for the input, you must provide a link to a business in Google Maps that has two sidebars (see below). If it has only one sidebar, the program will not be able to work. To avoid this error, make sure you SEARCH for the business in the sidebar (do NOT search the full name), then out of the available options, click the desired one.
+4. Note that for the input, you must provide a link to a business in Google Maps that has two sidebars (see below). If it has only one sidebar, the program will not be able to work. To avoid this error, make sure you SEARCH for the business in the sidebar (do NOT search the full name), then out of the available options, click the desired one. Subsequently, if the AI's pop-up Google Chrome window does not cover the entire screen, click the full screen icon at the top right for it to proceed.
 ![image](https://github.com/user-attachments/assets/0386f5ed-453a-4bb0-8ed7-3f2fe3594555)
 
 # 👩‍💼 Our Project Pitch
